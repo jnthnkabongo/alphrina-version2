@@ -17,13 +17,13 @@ const ListeColis = () => {
                       </h5>
                       <div className="col-md-12">
                         <Link
-                          to="/Addentrer"
+                          to="/AddColis"
                           className="btn btn-sm btn-outline-primary m-2"
                         >
                           Enregistrement
                         </Link>
                         <Link
-                          to="/adddepnse"
+                          to="/SortiColis"
                           className="btn btn-sm btn-outline-primary"
                         >
                           Depense

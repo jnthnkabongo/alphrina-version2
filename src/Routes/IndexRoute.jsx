@@ -62,6 +62,8 @@ import UpdateTypeVisa from '../Pages/AddTypeVisa'
 import ListeTypeVisa from '../Pages/ListeTypeVisa'
 import AddTypeVisa from '../Pages/AddTypeVisa'
 import ListeColis from '../Pages/ListeColis'
+import AddColis from '../Pages/AddColis'
+import SortiColis from '../Pages/SortiColis'
 
 
 
@@ -131,6 +133,8 @@ const IndexRoute = () => {
           <Route path="AddVisa" element={<AddTypeVisa/>}/>
           <Route path="UpdateVisa" element={<UpdateTypeVisa/>}/>
           <Route path="/ListeColis" element={<ListeColis/>}/>
+          <Route path="/AddColis" element={<AddColis/>}/>
+          <Route path="/SortiColis" element={<SortiColis/>}/>
         </Route>
       </Routes>
     </>
