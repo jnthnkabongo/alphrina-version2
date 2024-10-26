@@ -130,7 +130,7 @@ const IndexRoute = () => {
           <Route path="ListeVisa" element={<ListeTypeVisa/>}/>
           <Route path="AddVisa" element={<AddTypeVisa/>}/>
           <Route path="UpdateVisa" element={<UpdateTypeVisa/>}/>
-          <Route path="/ListeColis" elment={<ListeColis/>}/>
+          <Route path="/ListeColis" element={<ListeColis/>}/>
         </Route>
       </Routes>
     </>
