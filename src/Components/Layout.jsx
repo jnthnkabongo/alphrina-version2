@@ -102,7 +102,16 @@ const Layout = () => {
                   <div data-i18n="Analytics">Visa</div>
                 </Link>
               </li>
-
+              <li
+                className={`menu-item ${
+                    location.pathname === "/ListeColis" ? "active" : ""
+                  }`}
+              >
+                <Link to="/ListeColis" className="menu-link">
+                    <i className="menu-icon bx bx-package"></i>
+                    <div data-i18n="Analytics">Colis</div>
+                </Link>
+              </li>
               <li
                 className={`menu-item ${
                   location.pathname === "/Parametre" ? "active" : ""
