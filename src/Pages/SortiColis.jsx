@@ -19,7 +19,7 @@ const SortiColis = () => {
                                     <input type="text" className="form-control" />
                                 </div>
                                 <div className="mb-3 col-md-6">
-                                    <label htmlFor="firstName" className="form-label">NOM COLIS</label>
+                                    <label htmlFor="firstName" className="form-label">MONTANT OU SOMME</label>
                                     <input
                                         className="form-control"
                                         type="text"
@@ -29,7 +29,7 @@ const SortiColis = () => {
                                     />
                                 </div>
                                 <div className="mb-3 col-md-6">
-                                    <label htmlFor="number" className="form-label">NOMBRE TOTAL COLIS</label>
+                                    <label htmlFor="number" className="form-label">MOTIF</label>
                                     <input
                                         className="form-control"
                                         type="text"
@@ -38,7 +38,7 @@ const SortiColis = () => {
                                     />
                                 </div>
                                 <div className="mb-3 col-md-6">
-                                    <label htmlFor="organization" className="form-label">PRIX UNITAIRE</label>
+                                    <label htmlFor="organization" className="form-label">TOTAL</label>
                                     <input
                                         type="number"
                                         className="form-control"
@@ -47,24 +47,9 @@ const SortiColis = () => {
                                         
                                     />
                                 </div>
-                                <div className="mb-3 col-md-6">
-                                    <label className="form-label" htmlFor="phoneNumber">PRIX TOTAL</label>
-                                    <div className="input-group input-group-merge">
-                                        <input
-                                            type="text"
-                                            id=""
-                                            name=""
-                                            className="form-control"
-                                            placeholder=""
-                                        />
-                                    </div>
-                                </div>
-                                <div className="mb-3 col-md-6">
-                                    <label htmlFor="address" className="form-label">MONTANT A PAYER</label>
-                                    <input type="number" className="form-control"/>
-                                </div>
+                                
                                
-                                    </div>
+                            </div>
                              
                             <div className="mt-10">
                                 <button type="submit" className="btn btn-primary me-2">Soumettre</button>
