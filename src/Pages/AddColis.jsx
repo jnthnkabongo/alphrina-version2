@@ -14,11 +14,11 @@ const AddColis = () => {
                     <div className="card-body">
                         <form id="formAccountSettings"  method="POST" >
                             <div className="row">
-                                <div className="mb-3 col-md-6">
+                                <div className="mb-3 col-md-12">
                                     <label htmlFor="timeZones" className="form-label">NOM AGENT</label>
                                     <input type="text" className="form-control" />
                                 </div>
-                                <div className="mb-3 col-md-6">
+                                <div className="mb-3 col-md-2">
                                     <label htmlFor="firstName" className="form-label">NOM COLIS</label>
                                     <input
                                         className="form-control"
@@ -28,7 +28,7 @@ const AddColis = () => {
                                         autoFocus
                                     />
                                 </div>
-                                <div className="mb-3 col-md-6">
+                                <div className="mb-3 col-md-2">
                                     <label htmlFor="number" className="form-label">NOMBRE TOTAL COLIS</label>
                                     <input
                                         className="form-control"
@@ -37,7 +37,7 @@ const AddColis = () => {
                                         placeholder=""
                                     />
                                 </div>
-                                <div className="mb-3 col-md-6">
+                                <div className="mb-3 col-md-2">
                                     <label htmlFor="organization" className="form-label">PRIX UNITAIRE</label>
                                     <input
                                         type="number"
@@ -47,7 +47,17 @@ const AddColis = () => {
                                         
                                     />
                                 </div>
-                                <div className="mb-3 col-md-6">
+                                <div className="mb-3 col-md-2">
+                                    <label htmlFor="organization" className="form-label">KILO COLIS</label>
+                                    <input
+                                        type="number"
+                                        className="form-control"
+                                        id="organization"
+                                        name="organization"
+                                        
+                                    />
+                                </div>
+                                <div className="mb-3 col-md-2">
                                     <label className="form-label" htmlFor="phoneNumber">PRIX TOTAL</label>
                                     <div className="input-group input-group-merge">
                                         <input
@@ -59,8 +69,27 @@ const AddColis = () => {
                                         />
                                     </div>
                                 </div>
+                                <div className="mb-3 col-md-2">
+                                    <label className="form-label" htmlFor="phoneNumber">AJOUTER COLIS</label>
+                                    <div className="input-group input-group-merge">
+                                    <div className="col-md-2">
+                                        
+                                        <button
+                                        className="ml10 btn btn-primary"
+                                        
+                                        >
+                                        +
+                                        </button>
+                             
+                                    </div>
+                                    </div>
+                                </div>
                                 <div className="mb-3 col-md-6">
                                     <label htmlFor="address" className="form-label">MONTANT A PAYER</label>
+                                    <input type="number" className="form-control"/>
+                                </div>
+                                <div className="mb-3 col-md-6">
+                                    <label htmlFor="address" className="form-label">TOTAL KILOS</label>
                                     <input type="number" className="form-control"/>
                                 </div>
                                
