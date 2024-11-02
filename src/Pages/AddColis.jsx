@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { postColis } from "../actions/ColisAction";
 
 const AddColis = () => {
-
+    const [isLoading2, setloading2] = useState(false);
     const [inputListNew, setInputListNew] = useState([
         { nom_colis: "", nombre_total_colis: "", prix_unitaire: "", kilo_colis: "", prix_total: "" },
     ]);
@@ -22,9 +22,12 @@ const AddColis = () => {
         setInputListNew(list);
     };
 
+    const initialColisState = [{ nomagent:'', nomcolis:'', nbrtotalcolis:'', prixunitaire:'', kilocolis:'', prixtotal:'', montantpayer:'', totalkilo:''}];
+
     const handleSubmitColis = async (e) => {
         e.preventDefault();
-
+        setloading2(true);
+  
         const colisData = {
             nomagent: form.current["nom_agent"].value,
             montantpayer: form.current["montantpayer"].value,
@@ -39,20 +42,11 @@ const AddColis = () => {
             prixtotal: item.prix_total
         }));
 
-        const formDatas = {
+        const formData = {
             ...colisData,
             colis
         };
-        const formData = {
-                nomagent: "jonathan@gmail.com",
-                nomcolis: "dd",
-                nbrtotalcolis: "30",
-                prixunitaire: "4",
-                kilocolis: "40",
-                prixtotal: "30",
-                montantpayer: "31",
-                totalkilo: "32",
-        };
+       
 
         try {
             await dispatch(postColis(formData));
@@ -60,7 +54,6 @@ const AddColis = () => {
                 icon: "success",
                 title: "L'opération a réussi avec succès",
             });
-            setInputListNew([{ nom_colis: "", nombre_total_colis: "", prix_unitaire: "", kilo_colis: "", prix_total: "" }]); // Réinitialisation des champs de saisie
         } catch (error) {
             Swal.fire({
                 icon: "error",
@@ -68,6 +61,9 @@ const AddColis = () => {
                 text: "Veuillez vérifier vos informations de connexion.",
             });
             throw error;
+        }finally{
+            setInputListNew(initialColisState);
+            setloading2(false);
         }
     };
 
@@ -79,7 +75,7 @@ const AddColis = () => {
                     <div className="card-body"></div>
                     <hr className="my-0" />
                     <div className="card-body">
-                        <form ref={form} onSubmit={handleSubmitColis}>
+                        <form id="formAccountSettings" ref={form} method="POST" onSubmit={handleSubmitColis}>
                             <div className="row">
                                 <div className="mb-3 col-md-12">
                                     <label htmlFor="nom_agent" className="form-label">NOM AGENT</label>
@@ -95,7 +91,7 @@ const AddColis = () => {
                                                 type="text"
                                                 placeholder="Iphone 14 Pro Max"
                                                 name="nom_colis"
-                                                value={x.nom_colis}
+                                                value={x.nom_colis || ''}
                                                 onChange={(e) => handleInputChange(i, "nom_colis", e.target.value)}
                                             />
                                         </div>
@@ -105,7 +101,7 @@ const AddColis = () => {
                                                 className="form-control"
                                                 type="number"
                                                 placeholder="03"
-                                                value={x.nombre_total_colis}
+                                                value={x.nombre_total_colis || ''}
                                                 onChange={(e) => handleInputChange(i, "nombre_total_colis", e.target.value)}
                                             />
                                         </div>
@@ -115,7 +111,7 @@ const AddColis = () => {
                                                 type="number"
                                                 className="form-control"
                                                 placeholder="10 $"
-                                                value={x.prix_unitaire}
+                                                value={x.prix_unitaire || ''}
                                                 onChange={(e) => handleInputChange(i, "prix_unitaire", e.target.value)}
                                             />
                                         </div>
@@ -125,7 +121,7 @@ const AddColis = () => {
                                                 type="number"
                                                 className="form-control"
                                                 placeholder="18 Kg"
-                                                value={x.kilo_colis}
+                                                value={x.kilo_colis || ''}
                                                 onChange={(e) => handleInputChange(i, "kilo_colis", e.target.value)}
                                             />
                                         </div>
@@ -135,7 +131,7 @@ const AddColis = () => {
                                                 type="text"
                                                 className="form-control"
                                                 placeholder="300 $"
-                                                value={x.prix_total}
+                                                value={x.prix_total || ''}
                                                 onChange={(e) => handleInputChange(i, "prix_total", e.target.value)}
                                             />
                                         </div>
