@@ -15,7 +15,7 @@ export const postColis = (formData) => {
         title: `${error.response.data.message}`,
         text: "Veuillez vérifier vos informations de connexion.",
       });
-      console.log(formData)
+      console.log(JSON.stringify(formData))
       throw error; // Renvoie l'erreur pour le traitement ultérieur
     }
   };
