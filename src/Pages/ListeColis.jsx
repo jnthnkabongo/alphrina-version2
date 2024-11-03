@@ -1,56 +1,58 @@
-import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getColis } from "../actions/ColisAction"
-import Spinner from "../Components/Spinner";
-import ColisTable from "../Components/ColisTable";
+  import { React, useEffect, useState } from "react";
+  import { Link } from "react-router-dom";
+  import { getColis } from "../actions/ColisAction"
+  import Spinner from "../Components/Spinner";
+  import ColisTable from "../Components/ColisTable";
 
-const ListeColis = () => {
-  const getFiveDaysAgo = () => {
-    const today = new Date();
-    const fiveDaysAgo = new Date(today);
-    fiveDaysAgo.setDate(today.getDate() - 5);
-    const year = fiveDaysAgo.getFullYear();
-    const month = String(fiveDaysAgo.getMonth() + 1).padStart(2, "0");
-    const day = String(fiveDaysAgo.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-  
-  const [isLoading, setloading] = useState(true);
-  const [dataColis, setcolisData] = useState([]);
-  const [loadDate, setTosetloadDatetalPages] = useState(false);
-  const [dateDebut, setDateDebut] = useState(getFiveDaysAgo());
-  const [dateFin, setDateFin] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const ListeColis = () => {
+    const getFiveDaysAgo = () => {
+      const today = new Date();
+      const fiveDaysAgo = new Date(today);
+      fiveDaysAgo.setDate(today.getDate() - 5);
+      const year = fiveDaysAgo.getFullYear();
+      const month = String(fiveDaysAgo.getMonth() + 1).padStart(2, "0");
+      const day = String(fiveDaysAgo.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+    
+    const [isLoading, setloading] = useState(true);
+    const [dataColis, setcolisData] = useState([]);
+    const [loadDate, setTosetloadDatetalPages] = useState(false);
+    const [dateDebut, setDateDebut] = useState(getFiveDaysAgo());
+    const [dateFin, setDateFin] = useState(
+      new Date().toISOString().split("T")[0]
+    );
+    const numero = 1;
 
-  const handleDateDebutChange = (event) => {
-    setTosetloadDatetalPages(true);
-    setDateDebut(event.target.value);
-    setTimeout(() =>{
-      setTosetloadDatetalPages(false);
-    }, 1000);
-  };
+    const handleDateDebutChange = (event) => {
+      setTosetloadDatetalPages(true);
+      setDateDebut(event.target.value);
+      setTimeout(() =>{
+        setTosetloadDatetalPages(false);
+      }, 1000);
+    };
 
-  const handleDateFinChange = (event) => {
-    setTosetloadDatetalPages(true);
-    setDateFin(event.target.value);
-    setTimeout(() =>{
-      setTosetloadDatetalPages(false);
-    }, 1000);
-  };
+    const handleDateFinChange = (event) => {
+      setTosetloadDatetalPages(true);
+      setDateFin(event.target.value);
+      setTimeout(() =>{
+        setTosetloadDatetalPages(false);
+      }, 1000);
+    };
 
-  useEffect(() =>{
-    getColis(dateDebut, dateFin)
-      .then((membre) => {
-        setcolisData(membre);
-        setloading(false);
-      })
-      .catch((error) =>{
-        console.log(error);
-      });
-  }, [dateDebut, dateFin]);
+    useEffect(() =>{
+      getColis(dateDebut, dateFin)
+        .then((membre) => {
+          setcolisData(membre);
+          console.log(dataColis)
+          setloading(false);
+        })
+        .catch((error) =>{
+          console.log(error); 
+        });
+    }, [dateDebut, dateFin]);
 
-  
+    
 
     return (
       <>
@@ -214,30 +216,41 @@ const ListeColis = () => {
                               <table className="table table-bordered">
                                 <thead>
                                   <tr className="bg-primary">
-                                    <th className="text-white">N°</th>
-                                    <th className="text-white">Nom_emeteur</th>
+                                    <th className="text-white">Agent</th>
                                     <th className="text-white">
-                                      Nom recepeteur
+                                      Nom colis
                                     </th>
-                                    <th className="text-white">Matricule</th>
+                                    <th className="text-white">Montant payé</th>
                                     <th className="text-white">
-                                      Type transaction
+                                      Prix total
+                                    </th>
+                                    <th className="text-white">
+                                      Prix unitaire
+                                    </th>
+                                    <th className="text-white">
+                                      Nombre total colis
+                                    </th>
+                                    <th className="text-white">
+                                      Total kilo
                                     </th>
                                     <th className="text-white">Actions</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                 {Array.isArray(dataColis) && 
-                                 dataColis.map((data, index) => {
-                                 <ColisTable
-                                  id={data.id}
-                                  nom_agent={data.nomagent}
-                                  kilo_colis={data.kilocolis}
-                                  key={index}
-                                 />
-                                
-                                })}  
-                                </tbody>
+          {Array.isArray(dataColis) && dataColis.map((data, index) => (
+            <ColisTable
+              key={index}
+              id={data.id}
+              nom_agent={data.nomagent}
+              nom_colis={data.nomcolis}
+              nbrtotal_colis={data.nbrtotalcolis}
+              prixtotal={data.prixtotal}
+              prixunitaire={data.prixunitaire}
+              totalkilo={data.totalkilo}             
+              montantpayer={data.montantpayer}
+            />
+          ))}
+        </tbody>
                               </table>
                               
                             </div>
