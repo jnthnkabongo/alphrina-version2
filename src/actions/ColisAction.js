@@ -15,10 +15,20 @@ export const postColis = (formData) => {
         title: `${error.response.data.message}`,
         text: "Veuillez vérifier vos informations de connexion.",
       });
-      console.log(formData)
+      console.log(JSON.stringify(formData))
       throw error; // Renvoie l'erreur pour le traitement ultérieur
     }
   };
+};
+
+export const getColis = (dateDebut, datefin) => {
+  return axioClient.get(`filtreColi/${dateDebut}/${datefin}`)
+    .then((response) => {
+      return response.data.data;
+    })
+    .catch((error) =>{
+      window.location.href = "/"
+    });
 };
 
 export const getColiId = (id) => {
