@@ -176,6 +176,7 @@ const ListDettePartenaire = () => {
                                 <tbody>
                                   {Array.isArray(dataDettePartenaire) &&
                                     dataDettePartenaire.map((data, index) => (
+                                      // eslint-disable-next-line react/jsx-key
                                       <tr>
                                         <td>
                                           <i className=""></i>
