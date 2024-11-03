@@ -1,7 +1,57 @@
-  import { React } from "react";
+import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getColis } from "../actions/ColisAction"
+import Spinner from "../Components/Spinner";
+import ColisTable from "../Components/ColisTable";
 
 const ListeColis = () => {
+  const getFiveDaysAgo = () => {
+    const today = new Date();
+    const fiveDaysAgo = new Date(today);
+    fiveDaysAgo.setDate(today.getDate() - 5);
+    const year = fiveDaysAgo.getFullYear();
+    const month = String(fiveDaysAgo.getMonth() + 1).padStart(2, "0");
+    const day = String(fiveDaysAgo.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+  
+  const [isLoading, setloading] = useState(true);
+  const [dataColis, setcolisData] = useState([]);
+  const [loadDate, setTosetloadDatetalPages] = useState(false);
+  const [dateDebut, setDateDebut] = useState(getFiveDaysAgo());
+  const [dateFin, setDateFin] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+
+  const handleDateDebutChange = (event) => {
+    setTosetloadDatetalPages(true);
+    setDateDebut(event.target.value);
+    setTimeout(() =>{
+      setTosetloadDatetalPages(false);
+    }, 1000);
+  };
+
+  const handleDateFinChange = (event) => {
+    setTosetloadDatetalPages(true);
+    setDateFin(event.target.value);
+    setTimeout(() =>{
+      setTosetloadDatetalPages(false);
+    }, 1000);
+  };
+
+  useEffect(() =>{
+    getColis(dateDebut, dateFin)
+      .then((membre) => {
+        setcolisData(membre);
+        setloading(false);
+      })
+      .catch((error) =>{
+        console.log(error);
+      });
+  }, [dateDebut, dateFin]);
+
+  
+
     return (
       <>
         <div className="content-wrapper">
@@ -101,13 +151,13 @@ const ListeColis = () => {
                         >
                           <span className="hidden-sm-up"></span>
                           <span className="hidden-xs-down">
-                            <i className="fas fa-list"></i>Transaction du jour
+                            <i className="fas fa-list"></i>Liste colis du jour
                           </span>
                         </a>
                       </li>
                       <li className="nav-item">
                         <Link to="/ListTransactionDubai" className="nav-link">
-                          Les transactions
+                          Liste dépense colis
                         </Link>
                       </li>
                     </ul>
@@ -121,10 +171,21 @@ const ListeColis = () => {
                           <div className="row">
                             <div className="col-md-1"></div>
                             <div className="col-md-3">
-                                <input className="form-control" type="date" placeholder="Date début"/>    
+                                <input 
+                                  name="dateDebuf" 
+                                  className="form-control"
+                                  value={dateDebut}
+                                  onChange={handleDateDebutChange}
+                                  type="date" placeholder="Date début"
+                                />    
                             </div>
                             <div className="col-md-3">
-                                <input className="form-control" type="date" />   
+                                <input 
+                                  className="form-control" 
+                                  value={dateFin}
+                                  onChange={handleDateFinChange}
+                                  type="date" 
+                                />   
                             </div>
                             <div className="col-md-3">
                                 <select className="form-control">
@@ -144,7 +205,11 @@ const ListeColis = () => {
 
                         <hr />
                         <div className="card">
-                          
+                            {loadDate ? (
+                              <div className="text-center">
+                                <Spinner />
+                              </div>
+                            ) : (
                             <div className="table-responsive text-nowrap">
                               <table className="table table-bordered">
                                 <thead>
@@ -162,12 +227,21 @@ const ListeColis = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                 
-                                        
+                                 {Array.isArray(dataColis) && 
+                                 dataColis.map((data, index) => {
+                                 <ColisTable
+                                  id={data.id}
+                                  nom_agent={data.nomagent}
+                                  kilo_colis={data.kilocolis}
+                                  key={index}
+                                 />
+                                
+                                })}  
                                 </tbody>
                               </table>
+                              
                             </div>
-                       
+                            )}
                         </div>
                         <br />
                         <div className="pagination-container">
@@ -201,7 +275,7 @@ const ListeColis = () => {
         </div>
        
       </>
-    )
-}
+    );
+};
 
 export default ListeColis;

@@ -21,6 +21,16 @@ export const postColis = (formData) => {
   };
 };
 
+export const getColis = (dateDebut, datefin) => {
+  return axioClient.get(`filtreColi/${dateDebut}/${datefin}`)
+    .then((response) => {
+      return response.data.data;
+    })
+    .catch((error) =>{
+      window.location.href = "/"
+    });
+};
+
 export const getColiId = (id) => {
   return axioClient
     .get(`Coli/${id}`)
