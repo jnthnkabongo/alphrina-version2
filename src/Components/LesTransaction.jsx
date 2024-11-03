@@ -94,13 +94,13 @@ const LesTransaction = () => {
                 />
               </div>
               <div className="col-md-2">
-            <Link
-              to={`/ImprimerTransactionAlls/${dateDebut}/${dateFin}`}
-              title="Tous les transactions"
-            >
-              <i className="bx bx-printer fs-2 me-1"></i>
-            </Link>
-          </div>
+                <Link
+                  to={`/ImprimerTransactionAlls/${dateDebut}/${dateFin}`}
+                  title="Tous les transactions"
+                >
+                  <i className="bx bx-printer fs-2 me-1"></i>
+                </Link>
+              </div>
             </div>
           </div>
           <center>{loadDate ? <Spinner /> : ""}</center>

@@ -64,7 +64,7 @@ import AddTypeVisa from '../Pages/AddTypeVisa'
 import ListeColis from '../Pages/ListeColis'
 import AddColis from '../Pages/AddColis'
 import SortiColis from '../Pages/SortiColis'
-
+import ListeColisDepense from '../Components/ListeColisDepense'
 
 
 const IndexRoute = () => {
@@ -135,6 +135,7 @@ const IndexRoute = () => {
           <Route path="/ListeColis" element={<ListeColis/>}/>
           <Route path="/AddColis" element={<AddColis/>}/>
           <Route path="/SortiColis" element={<SortiColis/>}/>
+          <Route path="/ListeColisDepense" element={<ListeColisDepense/>}/>
         </Route>
       </Routes>
     </>
