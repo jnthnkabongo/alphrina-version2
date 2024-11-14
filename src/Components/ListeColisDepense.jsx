@@ -1,48 +1,51 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getColis } from "../actions/ColisAction"
+import { getColisDepense } from "../actions/ColisAction"
 import Spinner from "../Components/Spinner";
 import ColisTable from "../Components/ColisTable";
+import ColisTableDepense from "./ColisTableDepense";
 
 const ListeColisDepense = () => {
-  const getFiveDaysAgo = () => {
-    const today = new Date();
-    const fiveDaysAgo = new Date(today);
-    fiveDaysAgo.setDate(today.getDate() - 5);
-    const year = fiveDaysAgo.getFullYear();
-    const month = String(fiveDaysAgo.getMonth() + 1).padStart(2, "0");
-    const day = String(fiveDaysAgo.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-  
-  const [isLoading, setloading] = useState(true);
-  const [dataColis, setcolisData] = useState([]);
-  const [loadDate, setTosetloadDatetalPages] = useState(false);
-  const [dateDebut, setDateDebut] = useState(getFiveDaysAgo());
-  const [dateFin, setDateFin] = useState(
+    const getFiveDaysAgo = () => {
+        const today = new Date();
+        const fiveDaysAgo = new Date(today);
+        fiveDaysAgo.setDate(today.getDate() - 5);
+        const year = fiveDaysAgo.getFullYear();
+        const month = String(fiveDaysAgo.getMonth() + 1).padStart(2, "0");
+        const day = String(fiveDaysAgo.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
+      
+    const [isLoading, setloading] = useState(true);
+    const [dataColisDepense, setcolisDepenseData] = useState([]);
+    const [loadDate, setTosetloadDatetalPages] = useState(false);
+    const [dateDebut, setDateDebut] = useState(getFiveDaysAgo());
+    const [dateFin, setDateFin] = useState(
     new Date().toISOString().split("T")[0]
-  );
+    );
+    const numero = 1;
+  
+    const handleDateDebutChange = (event) =>{
+        setTosetloadDatetalPages(true);
+        setDateDebut(event.target.value);
+        setTimeout(() =>{
+            setTosetloadDatetalPages(false);
+        })
+    }
 
-  const handleDateDebutChange = (event) => {
-    setTosetloadDatetalPages(true);
-    setDateDebut(event.target.value);
-    setTimeout(() =>{
-      setTosetloadDatetalPages(false);
-    }, 1000);
-  };
-
-  const handleDateFinChange = (event) => {
-    setTosetloadDatetalPages(true);
-    setDateFin(event.target.value);
-    setTimeout(() =>{
-      setTosetloadDatetalPages(false);
-    }, 1000);
-  };
+    const handleDateFinChange = (event) => {
+        setTosetloadDatetalPages(true);
+        setDateFin(event.target.value);
+        setTimeout(() =>{
+          setTosetloadDatetalPages(false);
+        }, 1000);
+      };
 
   useEffect(() =>{
-    getColis(dateDebut, dateFin)
+    getColisDepense(dateDebut, dateFin)
       .then((membre) => {
-        setcolisData(membre);
+        setcolisDepenseData(membre);
+        console.log(dataColisDepense)
         setloading(false);
       })
       .catch((error) =>{
@@ -168,7 +171,7 @@ const ListeColisDepense = () => {
                         <div className="p-20">
                           <div className="row">
                             <div className="col-md-1"></div>
-                            <div className="col-md-3">
+                            <div className="col-md-5">
                                 <input 
                                   name="dateDebuf" 
                                   className="form-control"
@@ -177,7 +180,7 @@ const ListeColisDepense = () => {
                                   type="date" placeholder="Date début"
                                 />    
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-5">
                                 <input 
                                   className="form-control" 
                                   value={dateFin}
@@ -185,15 +188,8 @@ const ListeColisDepense = () => {
                                   type="date" 
                                 />   
                             </div>
-                            <div className="col-md-3">
-                                <select className="form-control">
-                                    <option value="" key="">Toutes les transactions</option>
-                                    <option value="" key="">Toutes les entres</option>
-                                    <option value="" key="">Toutes les sorties</option>
-                                </select>     
-                            </div>
                             <div className="col-md-1">
-                              <Link to={`/ImprimerTransactionAll`}>
+                              <Link to={`/ImpressionColisDepense`}>
                                 <i className="bx bx-printer fs-2 me-1"></i>
                               </Link>
                             </div>
@@ -213,28 +209,22 @@ const ListeColisDepense = () => {
                                 <thead>
                                   <tr className="bg-primary">
                                     <th className="text-white">N°</th>
-                                    <th className="text-white">Nom_emeteur</th>
-                                    <th className="text-white">
-                                      Nom recepeteur
-                                    </th>
-                                    <th className="text-white">Matricule</th>
-                                    <th className="text-white">
-                                      Type transaction
-                                    </th>
+                                    <th className="text-white">Nom</th>
+                                    <th className="text-white">Montant</th>
+                                    <th className="text-white">Motif</th>
                                     <th className="text-white">Actions</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                 {Array.isArray(dataColis) && 
-                                 dataColis.map((data, index) => {
-                                 <ColisTable
-                                  id={data.id}
-                                  nom_agent={data.nomagent}
-                                  kilo_colis={data.kilocolis}
-                                  key={index}
-                                 />
-                                
-                                })}  
+                                    {Array.isArray(dataColisDepense) && dataColisDepense.map((data, index) => (
+                                        <ColisTableDepense
+                                        key={index}
+                                        id={data.id}
+                                        nom={data.nom}
+                                        montant={data.montant}
+                                        motif={data.motif}
+                                        />
+                                    ))}
                                 </tbody>
                               </table>
                               

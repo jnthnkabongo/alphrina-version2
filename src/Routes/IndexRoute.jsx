@@ -65,6 +65,8 @@ import ListeColis from '../Pages/ListeColis'
 import AddColis from '../Pages/AddColis'
 import SortiColis from '../Pages/SortiColis'
 import ListeColisDepense from '../Components/ListeColisDepense'
+import PrintColisDepense from '../Pages/Print/PrintColisDepense'
+import PrintColis from '../Pages/Print/PrintColis'
 
 
 const IndexRoute = () => {
@@ -136,6 +138,8 @@ const IndexRoute = () => {
           <Route path="/AddColis" element={<AddColis/>}/>
           <Route path="/SortiColis" element={<SortiColis/>}/>
           <Route path="/ListeColisDepense" element={<ListeColisDepense/>}/>
+          <Route path="/ImpressionColisDepense" element={<PrintColisDepense/>}/>
+          <Route path="/ImpressionColis" element={<PrintColis/>}/>
         </Route>
       </Routes>
     </>

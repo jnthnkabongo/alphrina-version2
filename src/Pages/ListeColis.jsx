@@ -22,7 +22,10 @@
     const [dateFin, setDateFin] = useState(
       new Date().toISOString().split("T")[0]
     );
-    const numero = 1;
+    const [totalcolisentre, settotalcolisentre] = useState(0);
+    const [totalPayer, settotalPayer] = useState(0);
+    const [depense, setdepense] = useState(0);
+    const [balance, setbalance] = useState(0);
 
     const handleDateDebutChange = (event) => {
       setTosetloadDatetalPages(true);
@@ -41,16 +44,23 @@
     };
 
     useEffect(() =>{
+      setloading(true);
       getColis(dateDebut, dateFin)
         .then((membre) => {
-          setcolisData(membre);
-          console.log(dataColis)
+          setcolisData(membre.data);
+          setbalance(membre.balance);
+          setdepense(membre.depense);
+          settotalPayer(membre.totalPayer);
+           settotalcolisentre(membre.totalcolisentre)
           setloading(false);
+          console.log(membre.depense);
         })
         .catch((error) =>{
           console.log(error); 
         });
     }, [dateDebut, dateFin]);
+
+   
 
     
 
@@ -87,30 +97,26 @@
                     <div className="row">
                       <div className="card btn btn-sm btn-success col-md-2 m-2">
                         <div className="card-body ">
-                          <p className="font-weight-bold">Dépôt</p>
-                          <span className="font-weight-bold"></span>
+                          <p className="font-weight-bold">Total Colis</p>
+                          <span className="font-weight-bold">{totalcolisentre}$</span>
                         </div>
                       </div>
                       <div className="card btn btn-sm btn-warning col-md-2 m-2">
                         <div className="card-body ">
-                          <p className="font-weight-bold">Balance</p>
-                          <span className="font-weight-bold">
-                          
-                          </span>
+                          <p className="font-weight-bold">Total Payer</p>
+                          <span className="font-weight-bold">{totalPayer}$</span>
                         </div>
                       </div>
                       <div className="card btn btn-sm btn-danger col-md-2 m-2">
                         <div className="card-body ">
-                          <p className="font-weight-bold">Sorti</p>
-                          <span className="font-weight-bold">
-                           
-                          </span>
+                          <p className="font-weight-bold">Depense</p>
+                          <span className="font-weight-bold">{depense}$</span>
                         </div>
                       </div>
                       <div className="card btn btn-sm btn-primary col-md-2 m-2">
                         <div className="card-body ">
-                          <p className="font-weight-bold">Total Depense</p>
-                          <span className="font-weight-bold"></span>
+                          <p className="font-weight-bold">Balance</p>
+                          <span className="font-weight-bold">{balance}$</span>
                         </div>
                       </div>
                       <div
@@ -172,7 +178,7 @@
                         <div className="p-20">
                           <div className="row">
                             <div className="col-md-1"></div>
-                            <div className="col-md-3">
+                            <div className="col-md-5">
                                 <input 
                                   name="dateDebuf" 
                                   className="form-control"
@@ -181,7 +187,7 @@
                                   type="date" placeholder="Date début"
                                 />    
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-5">
                                 <input 
                                   className="form-control" 
                                   value={dateFin}
@@ -189,19 +195,11 @@
                                   type="date" 
                                 />   
                             </div>
-                            <div className="col-md-3">
-                                <select className="form-control">
-                                    <option value="" key="">Toutes les transactions</option>
-                                    <option value="" key="">Toutes les entres</option>
-                                    <option value="" key="">Toutes les sorties</option>
-                                </select>     
-                            </div>
                             <div className="col-md-1">
-                              <Link to={`/ImprimerTransactionAll`}>
+                              <Link to={`/ImpressionColis`}>
                                 <i className="bx bx-printer fs-2 me-1"></i>
                               </Link>
                             </div>
-                            <div className="col-md-1"></div>
                           </div>
                         </div>
 
