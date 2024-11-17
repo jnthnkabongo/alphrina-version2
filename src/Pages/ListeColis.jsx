@@ -119,25 +119,6 @@
                           <span className="font-weight-bold">{balance}$</span>
                         </div>
                       </div>
-                      <div
-                        className="card btn btn-sm btn col-md-2 m-2"
-                        style={{ backgroundColor: "purple" }}
-                      >
-                        <div className="card-body ">
-                          <p
-                            className="font-weight-bold"
-                            style={{ color: "white" }}
-                          >
-                            Solde
-                          </p>
-                          <span
-                            className="font-weight-bold"
-                            style={{ color: "white" }}
-                          >
-                         
-                          </span>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -196,7 +177,7 @@
                                 />   
                             </div>
                             <div className="col-md-1">
-                              <Link to={`/ImpressionColis`}>
+                              <Link to={`/ImpressionColis/${dateDebut}/${dateFin}`}>
                                 <i className="bx bx-printer fs-2 me-1"></i>
                               </Link>
                             </div>
@@ -215,22 +196,12 @@
                                 <thead>
                                   <tr className="bg-primary">
                                     <th className="text-white">Agent</th>
-                                    <th className="text-white">
-                                      Nom colis
-                                    </th>
+                                    <th className="text-white">Nom colis</th>
                                     <th className="text-white">Montant payé</th>
-                                    <th className="text-white">
-                                      Prix total
-                                    </th>
-                                    <th className="text-white">
-                                      Prix unitaire
-                                    </th>
-                                    <th className="text-white">
-                                      Nombre total colis
-                                    </th>
-                                    <th className="text-white">
-                                      Total kilo
-                                    </th>
+                                    <th className="text-white">Prix total</th>
+                                    <th className="text-white">Prix unitaire</th>
+                                    <th className="text-white">Nombre total colis</th>
+                                    <th className="text-white">Total kilos</th>
                                     <th className="text-white">Actions</th>
                                   </tr>
                                 </thead>

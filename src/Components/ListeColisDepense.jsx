@@ -88,13 +88,13 @@ const ListeColisDepense = () => {
                     <div className="row">
                       <div className="card btn btn-sm btn-success col-md-2 m-2">
                         <div className="card-body ">
-                          <p className="font-weight-bold">Dépôt</p>
+                          <p className="font-weight-bold">Total Colis</p>
                           <span className="font-weight-bold"></span>
                         </div>
                       </div>
                       <div className="card btn btn-sm btn-warning col-md-2 m-2">
                         <div className="card-body ">
-                          <p className="font-weight-bold">Balance</p>
+                          <p className="font-weight-bold">Total Payer</p>
                           <span className="font-weight-bold">
                           
                           </span>
@@ -102,7 +102,7 @@ const ListeColisDepense = () => {
                       </div>
                       <div className="card btn btn-sm btn-danger col-md-2 m-2">
                         <div className="card-body ">
-                          <p className="font-weight-bold">Sorti</p>
+                          <p className="font-weight-bold">Depense</p>
                           <span className="font-weight-bold">
                            
                           </span>
@@ -110,29 +110,11 @@ const ListeColisDepense = () => {
                       </div>
                       <div className="card btn btn-sm btn-primary col-md-2 m-2">
                         <div className="card-body ">
-                          <p className="font-weight-bold">Total Depense</p>
+                          <p className="font-weight-bold">Balance</p>
                           <span className="font-weight-bold"></span>
                         </div>
                       </div>
-                      <div
-                        className="card btn btn-sm btn col-md-2 m-2"
-                        style={{ backgroundColor: "purple" }}
-                      >
-                        <div className="card-body ">
-                          <p
-                            className="font-weight-bold"
-                            style={{ color: "white" }}
-                          >
-                            Solde
-                          </p>
-                          <span
-                            className="font-weight-bold"
-                            style={{ color: "white" }}
-                          >
-                         
-                          </span>
-                        </div>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -189,7 +171,7 @@ const ListeColisDepense = () => {
                                 />   
                             </div>
                             <div className="col-md-1">
-                              <Link to={`/ImpressionColisDepense`}>
+                              <Link to={`/ImpressionColisDepense/${dateDebut}/${dateFin}`}>
                                 <i className="bx bx-printer fs-2 me-1"></i>
                               </Link>
                             </div>
@@ -223,6 +205,7 @@ const ListeColisDepense = () => {
                                         nom={data.nom}
                                         montant={data.montant}
                                         motif={data.motif}
+                                        keys={data.id}
                                         />
                                     ))}
                                 </tbody>

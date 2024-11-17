@@ -10,7 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import dateFormat from "dateformat";
 import { useParams } from "react-router-dom";
-import { impressionAllentrer } from "../../actions/ColisAction";
+import { getColis } from "../../actions/ColisAction";
 
 const styles = StyleSheet.create({
     page: {
@@ -109,18 +109,53 @@ const PrintColis = () => {
     const [carss, setcarsss] = useState(fakeData);
     const datanow = new Date();
     const formattedDate = dateFormat(datanow, "dd/mm/yyyy");
-    const [etatData, setetatData] = useState([]);
+    const [etatDatas, setetatDatas] = useState([]);
     const [isLoading, setloading] = useState(true);
-    let { id } = useParams();
+    let { dateDebut, dateFin} = useParams();
+
+    // useEffect(() => {
+    //   setloading(true);
+    //   getColis(dateDebut, dateFin)
+    //     .then((membre) => {
+    //       setetatDatas(membre);
+    //       console.log(etatDatas);
+    //       setloading(false)
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },[]);
 
     useEffect(() => {
-        impressionAllentrer(id)
-            .then((member) => {
-                setetatData(member);
-
-                setloading(false);
-            })
-    }, [id]);
+      setloading(true);
+      getColis(dateDebut, dateFin)
+        .then((membre) => {
+          console.log("Received data:", membre); // Log the full response
+          if (Array.isArray(membre)) {
+            setetatDatas(membre);
+          } else if (membre && typeof membre === 'object') {
+            // Check if it has a data property that is an array
+            if (Array.isArray(membre.data)) {
+              setetatDatas(membre.data);
+            } else {
+              console.error("Expected an array but received:", membre);
+              setetatDatas([]); // Reset to empty if response is not an array
+            }
+          } else {
+            console.error("Unexpected response format:", membre);
+            setetatDatas([]);
+          }
+          setloading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching colis:", error);
+          setloading(false);
+        });
+    }, [dateDebut, dateFin]);
+  
+    if (isLoading) {
+      return <Text>Loading...</Text>; // Optional loading state
+    }
 
     return (
         <>
@@ -139,7 +174,7 @@ const PrintColis = () => {
                 <View style={styles.body}>
                   <div className="text-center">
                     <Text style={{ fontSize: 15, textDecoration: "underline" }}>
-                      Colis N° {etatData.nomagent}
+                      Liste Colis N° {etatDatas.nomagent}
                     </Text>
                     <Text> </Text>
                   </div>
@@ -166,37 +201,29 @@ const PrintColis = () => {
                         </View>
                       </View>
     
-                      <View style={styles.tableRow}>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>
-                            {etatData.nomagent}
-                          </Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>
-                            {etatData.nom_recepteur}
-                          </Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>{etatData.telephone}</Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>{`${
-                            etatData.pays_provenance?.id_pays?.intitule || ""
-                          } - ${etatData.pays_provenance?.intitule || ""}`}</Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>
-                            {`${
-                              etatData.pays_destinateut?.id_pays?.intitule || ""
-                            } - ${etatData.pays_destinateut?.intitule || ""}`}
-                          </Text>
-                        </View>
-                       
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}></Text>
-                        </View>
-                      </View>
+                      {etatDatas.map((etatData, index) => (
+                           <View key={index} style={styles.tableRow}>
+                            
+                            <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatData.nomagent ?? 'Aucune data'}</Text>
+                           </View>
+                            <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatData.nomcolis}</Text>
+                           </View>
+                           <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatData.nbrtotalcolis}</Text>
+                           </View>
+                           <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatData.prixtotal}</Text>
+                           </View>
+                           <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatData.prixunitaire}</Text>
+                           </View>
+                           <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatData.montantpayer}</Text>
+                           </View>
+                       </View>
+                      ))} 
                     </View>
                   </div>
                 </View>

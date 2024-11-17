@@ -115,7 +115,7 @@ const Dashboad = () => {
                   <Link to="/ListeColis">
                     <div className="card-body">
                       <span><b> Colis </b></span><br/>
-                      <i className="menu-icon tf-icons bx bx-credit-card fs-1"></i>
+                      <i className="menu-icon tf-icons bx bx-package fs-1"></i>
                     </div>
                   </Link>
                 </div>

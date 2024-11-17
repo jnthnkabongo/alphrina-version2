@@ -43,8 +43,8 @@ export const postDepenseColis = (formDataDepense) => {
   };
 }
 
-export const getColis = (dateDebut, datefin) => {
-  return axioClient.get(`filtreColi/${dateDebut}/${datefin}`)
+export const getColis = (dateDebut, dateFin) => {
+  return axioClient.get(`filtreColi/${dateDebut}/${dateFin}`)
     .then((response) => {
       return response.data;
     })
@@ -128,7 +128,7 @@ export const deleteDepenseColis = (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axioClient.delete(`DepenseColi/${id}`);
+          const response = await axioClient.delete(`Depensecolis/${id}`);
           Swal.fire({
             icon: "success",
             title: `${response.data.message}`,

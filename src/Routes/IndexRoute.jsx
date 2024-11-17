@@ -85,6 +85,8 @@ const IndexRoute = () => {
         <Route path="/PrintDepenseConteneur/:id" element={<PrintDepenseConteneur />} />
         <Route path="/PrintClientConteneur/:id" element={<PrintClienConteneur />} />
         <Route path="/PrintDetteClient/:datadebut/:datefin" element={<PrintDetteClient />} />
+        <Route path="/ImpressionColisDepense/:dateDebut/:dateFin" element={<PrintColisDepense/>}/>
+        <Route path="/ImpressionColis/:dateDebut/:dateFin" element={<PrintColis/>}/>
         <Route element={<Layout />}>
           <Route path="/dashboad" element={<Dashboad />} />
           <Route path="/entrer" element={<Entre />} />
@@ -138,8 +140,7 @@ const IndexRoute = () => {
           <Route path="/AddColis" element={<AddColis/>}/>
           <Route path="/SortiColis" element={<SortiColis/>}/>
           <Route path="/ListeColisDepense" element={<ListeColisDepense/>}/>
-          <Route path="/ImpressionColisDepense" element={<PrintColisDepense/>}/>
-          <Route path="/ImpressionColis" element={<PrintColis/>}/>
+
         </Route>
       </Routes>
     </>

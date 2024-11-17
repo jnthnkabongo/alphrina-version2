@@ -10,7 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import dateFormat from "dateformat";
 import { useParams } from "react-router-dom";
-import { impressionAllentrer } from "../../actions/ColisAction";
+import { getColisDepense, impressionAllentrer } from "../../actions/ColisAction";
 
 const styles = StyleSheet.create({
     page: {
@@ -51,15 +51,14 @@ const styles = StyleSheet.create({
       flexDirection: "row",
     },
     tableColHeader: {
-      width: "15%",
+      width: "25%",
       borderStyle: "solid",
       borderColor: "#bfbfbf",
-      borderBottomColor: "#000",
       borderWidth: 1,
       backgroundColor: "#f0f0f0",
     },
     tableCol: {
-      width: "15%",
+      width: "25%",
       borderStyle: "solid",
       borderColor: "#bfbfbf",
       borderRightWidth: 1 /* Ajoute une ligne verticale à droite de chaque cellule */,
@@ -105,24 +104,27 @@ const styles = StyleSheet.create({
   ];
   
 const PrintColisDepense = () => {
-    const [carss, setcarsss] = useState(fakeData);
     const datanow = new Date();
     const formattedDate = dateFormat(datanow, "dd/mm/yyyy");
     const [etatData, setetatData] = useState([]);
     const [isLoading, setloading] = useState(true);
     const [typeText, settypeText] = useState("");
     const [typeColor, settypeColor] = useState("");
-    let { id } = useParams();
+    let { dateDebut, dateFin } = useParams();
 
-    useEffect(() => {
-        impressionAllentrer(id)
-            .then((member) => {
-                setetatData(member);
-                let typeText = "";
-                 
-            })
-    });
-
+    useEffect(() =>{
+      setloading(true);
+      getColisDepense(dateDebut, dateFin)
+        .then((membre) => {
+          setetatData(membre);
+          console.log(etatData)
+          setloading(false);
+        })
+        .catch((error) =>{
+          console.log(error);
+        });
+    }, []);
+    
     return (
         <>
           <PDFViewer style={{ width: "100%", height: "100vh" }}>
@@ -140,7 +142,7 @@ const PrintColisDepense = () => {
                 <View style={styles.body}>
                   <div className="text-center">
                     <Text style={{ fontSize: 15, textDecoration: "underline" }}>
-                      Liste Depense Colis N° {etatData.matricule}
+                      Liste Depense Colis N° {etatData.id}
                     </Text>
                     <Text> </Text>
                   </div>
@@ -148,67 +150,36 @@ const PrintColisDepense = () => {
                     <View style={styles.table}>
                       <View style={styles.tableRow}>
                         <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>Emeteur</Text>
+                          <Text style={styles.tableCellHeader}># </Text>
                         </View>
                         <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>Recepteur</Text>
-                        </View>
-                        <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>Telephone</Text>
-                        </View>
-                        <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>
-                            Pays provenance
-                          </Text>
-                        </View>
-                        <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>
-                            Pays destinaaire
-                          </Text>
+                          <Text style={styles.tableCellHeader}>Nom </Text>
                         </View>
                         <View style={styles.tableColHeader}>
                           <Text style={styles.tableCellHeader}>Montant</Text>
                         </View>
                         <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>
-                            Type transaction
-                          </Text>
+                          <Text style={styles.tableCellHeader}>Motif</Text>
                         </View>
                       </View>
     
-                      <View style={styles.tableRow}>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>
-                            {etatData.nom_emateur}
-                          </Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>
-                            {etatData.nom_recepteur}
-                          </Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>{etatData.telephone}</Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>{`${
-                            etatData.pays_provenance?.id_pays?.intitule || ""
-                          } - ${etatData.pays_provenance?.intitule || ""}`}</Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>
-                            {`${
-                              etatData.pays_destinateut?.id_pays?.intitule || ""
-                            } - ${etatData.pays_destinateut?.intitule || ""}`}
-                          </Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>{etatData.montant}</Text>
-                        </View>
-                        <View style={styles.tableCol}>
-                          <Text style={styles.tableCell}>{typeText}</Text>
-                        </View>
-                      </View>
+                      {etatData.map((etatDatas, index) => (
+                           <View key={index} style={styles.tableRow}>
+                            
+                            <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatDatas.id}</Text>
+                           </View>
+                            <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatDatas.nom}</Text>
+                           </View>
+                           <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatDatas.montant}</Text>
+                           </View>
+                           <View style={styles.tableCol}>
+                               <Text style={styles.tableCell}>{etatDatas.motif}</Text>
+                           </View>
+                       </View>
+                      ))}             
                     </View>
                   </div>
                 </View>
