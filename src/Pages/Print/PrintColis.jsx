@@ -174,7 +174,7 @@ const PrintColis = () => {
                 <View style={styles.body}>
                   <div className="text-center">
                     <Text style={{ fontSize: 15, textDecoration: "underline" }}>
-                      Liste Colis N° {etatDatas.nomagent}
+                      Liste Colis Du {} Au {}
                     </Text>
                     <Text> </Text>
                   </div>
@@ -188,16 +188,16 @@ const PrintColis = () => {
                           <Text style={styles.tableCellHeader}>Nom Colis</Text>
                         </View>
                         <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>Montant</Text>
+                          <Text style={styles.tableCellHeader}>Nombre Total Colis</Text>
                         </View>
                         <View style={styles.tableColHeader}>
                           <Text style={styles.tableCellHeader}>Prix Total</Text>
                         </View>
                         <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>Total Kilo Colis</Text>
+                          <Text style={styles.tableCellHeader}>Prix Unitaire</Text>
                         </View>
                         <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>Type Colis</Text>
+                          <Text style={styles.tableCellHeader}>Montant à Payer</Text>
                         </View>
                       </View>
     

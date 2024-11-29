@@ -10,6 +10,7 @@ const AddColis = () => {
   const [inputListNew, setInputListNew] = useState([
     {
       nom_colis: "",
+      nomclient: "",
       nombre_total_colis: "",
       prix_unitaire: "",
       kilo_colis: "",
@@ -25,6 +26,7 @@ const AddColis = () => {
       ...inputListNew,
       {
         nom_colis: "",
+        nomclient: "",
         nombre_total_colis: "",
         prix_unitaire: "",
         kilo_colis: "",
@@ -48,11 +50,12 @@ const AddColis = () => {
 
     const formDataList = inputListNew.map((item) => ({
       nomcolis: item.nom_colis,
+      nom_client: item.nom_client,
       nbrtotalcolis: item.nombre_total_colis,
       prixunitaire: item.prix_unitaire,
       kilocolis: item.kilo_colis,
       prixtotal: item.prix_total,
-      nomagent: form.current["nom_agent"].value,
+      id_agent: parseInt(form.current["id_agent"].value),
       montantpayer: montantAPayer,
       totalkilo: totalKilos,
     }));
@@ -96,15 +99,24 @@ const AddColis = () => {
           <div className="card-body">
             <form ref={form} onSubmit={handleSubmitColis}>
               <div className="row">
-                <div className="mb-3 col-md-12">
-                  <label htmlFor="nom_agent" className="form-label">
-                    NOM AGENT
-                  </label>
+                <div className="mb-3 col-md-6">
+                  <label htmlFor="id_agent" className="form-label"> NOM AGENT</label>
                   <input
-                    type="text"
-                    id="nom_agent"
-                    name="nom_agent"
+                    type="number"
+                    id="id_agent"
+                    name="id_agent"
                     placeholder="Alphonsine Banongo"
+                    className="form-control"
+                  />
+                 
+                </div>
+                <div className="mb-3 col-md-6">
+                  <label htmlFor="nom_client" className="form-label">NOM CLIENT</label>
+                  <input 
+                    type="text"
+                    id="nomclient"
+                    name="nomclient"
+                    placeholder="Computech Congo"
                     className="form-control"
                   />
                 </div>

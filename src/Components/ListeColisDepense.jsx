@@ -85,37 +85,7 @@ const ListeColisDepense = () => {
                     </div>
                   </div>
                   <div className="col-sm-8 text-center p-2">
-                    <div className="row">
-                      <div className="card btn btn-sm btn-success col-md-2 m-2">
-                        <div className="card-body ">
-                          <p className="font-weight-bold">Total Colis</p>
-                          <span className="font-weight-bold"></span>
-                        </div>
-                      </div>
-                      <div className="card btn btn-sm btn-warning col-md-2 m-2">
-                        <div className="card-body ">
-                          <p className="font-weight-bold">Total Payer</p>
-                          <span className="font-weight-bold">
-                          
-                          </span>
-                        </div>
-                      </div>
-                      <div className="card btn btn-sm btn-danger col-md-2 m-2">
-                        <div className="card-body ">
-                          <p className="font-weight-bold">Depense</p>
-                          <span className="font-weight-bold">
-                           
-                          </span>
-                        </div>
-                      </div>
-                      <div className="card btn btn-sm btn-primary col-md-2 m-2">
-                        <div className="card-body ">
-                          <p className="font-weight-bold">Balance</p>
-                          <span className="font-weight-bold"></span>
-                        </div>
-                      </div>
-                      
-                    </div>
+                   
                   </div>
                 </div>
               </div>
@@ -181,7 +151,7 @@ const ListeColisDepense = () => {
 
                         <hr />
                         <div className="card">
-                            {loadDate ? (
+                            {isLoading ? (
                               <div className="text-center">
                                 <Spinner />
                               </div>

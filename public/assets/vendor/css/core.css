@@ -5337,8 +5337,8 @@ textarea.form-control-lg {
   border: 0.25em solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
-  -webkit-animation: 0.75s linear infinite spinner-border;
-          animation: 0.75s linear infinite spinner-border;
+  -webkit-animation: 0.5s linear infinite spinner-border;
+          animation: 0.5s linear infinite spinner-border;
 }
 
 .spinner-border-sm {
@@ -5374,8 +5374,8 @@ textarea.form-control-lg {
   background-color: currentColor;
   border-radius: 50%;
   opacity: 0;
-  -webkit-animation: 0.75s linear infinite spinner-grow;
-          animation: 0.75s linear infinite spinner-grow;
+  -webkit-animation: 0.5s linear infinite spinner-grow;
+          animation: 0.5s linear infinite spinner-grow;
 }
 
 .spinner-grow-sm {
@@ -5386,8 +5386,8 @@ textarea.form-control-lg {
 @media (prefers-reduced-motion: reduce) {
   .spinner-border,
 .spinner-grow {
-    -webkit-animation-duration: 1.5s;
-            animation-duration: 1.5s;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
   }
 }
 .offcanvas {

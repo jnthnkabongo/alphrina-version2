@@ -1,10 +1,10 @@
 import axioClient from "../axiosClient";
 import Swal from "sweetalert2";
 
-export const postColis = (formData) => {
+export const postAgent = (formData) => {
   return async (dispatch) => {
     try {
-      const response = await axioClient.post(`Coli`, formData);
+      const response = await axioClient.post(`Agent`, formData);
       Swal.fire({
         icon: "success",
         title: `${response.data.message}`,
