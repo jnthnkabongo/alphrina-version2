@@ -118,7 +118,7 @@
                                                                                 id={data.id_agent}
                                                                                 nom_agent={data.nom}
                                                                                 key={index}
-                                                                                colis={data.colis} // Assurez-vous que ceci est correct
+                                                                                colis={data.colis} 
                                                                             />
                                                                         ))}
                                                                     </tbody>
