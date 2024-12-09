@@ -66,7 +66,7 @@ const ListeColisDepense = () => {
                   <div className="col-sm-4">
                     <div className="card-body">
                       <h5 className="card-title text-primary">
-                        <i className="bx bx-package m-1"></i> Colis
+                        <i className="bx bx-package m-1"></i> Depenses
                       </h5>
                       <div className="col-md-12">
                         <Link
@@ -185,18 +185,7 @@ const ListeColisDepense = () => {
                             )}
                         </div>
                         <br />
-                        <div className="pagination-container">
-                          <button
-                            className="btn btn-primary mr-2"
-                          >
-                            &laquo; Précédent
-                          </button>
-                          &nbsp;
-                          <button className="btn btn-primary mr-2"
-                          >
-                            Suivant &raquo;
-                          </button>
-                        </div>
+                        
                       </div>
                       <div
                         className="tab-pane p-20"
