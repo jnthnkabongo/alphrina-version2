@@ -52,7 +52,7 @@ export const getColis = (dateDebut, dateFin) => {
 };
 
 export const getAgent = ()=>{
-  return axioClient.get(`Agent`)
+  return axioClient.get(`Agents`)
     .then((response) =>{
       return response.data.data;
     })

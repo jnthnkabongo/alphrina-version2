@@ -44,11 +44,12 @@ const ColisTable = ({ nom_agent = '', id = '', colis = [] }) => {
                             <thead>
                                 <tr className="bg-dark">
                                     <th className="text-white">Index</th>
-                                    <th className="text-white">ID Colis</th>
+                                    <th className="text-white">Nom Client</th>
                                     <th className="text-white">Nom Colis</th>
-                                    <th className="text-white">Total Kilo</th>
+                                    <th className="text-white">Nombre Colis</th>
+                                    <th className="text-white">Kilo Colis</th>
+                                    <th className="text-white">Prix Unitaire</th>
                                     <th className="text-white">Prix Total</th>
-                                    <th className="text-white">Montant Payé</th>
                                     <th className="text-white">Actions</th>
                                 </tr>
                             </thead>
@@ -57,11 +58,12 @@ const ColisTable = ({ nom_agent = '', id = '', colis = [] }) => {
                                     colis.map((colis, index) => (
                                         <tr key={colis.id}>
                                             <td>{index + 1}</td>
-                                            <td>{colis.id}</td>
+                                            <td>{colis.nom_client}</td>
                                             <td>{colis.nomcolis}</td>
-                                            <td>{colis.totalkilo}</td>
+                                            <td>{colis.nbrtotalcolis}</td>
+                                            <td>{colis.kilocolis}</td>
+                                            <td>{colis.prixunitaire}</td>
                                             <td>{colis.prixtotal}</td>
-                                            <td>{colis.montantpayer}</td>
                                             <td>
                                                 <Link to={`/PayementConteneurUser/${colis.id}`}>
                                                     <i className="bx bx-money me-1 fs-2"></i>

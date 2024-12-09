@@ -11,6 +11,7 @@ import {
 import dateFormat from "dateformat";
 import { useParams } from "react-router-dom";
 import { getColis } from "../../actions/ColisAction";
+import logo from '../../../public/ab.jpg';
 
 const styles = StyleSheet.create({
     page: {
@@ -50,6 +51,18 @@ const styles = StyleSheet.create({
     tableRow: {
       flexDirection: "row",
     },
+    tableRows: {
+      flexDirection: 'row', // Aligne les enfants en ligne
+      justifyContent: 'space-between', // Espace égal entre les colonnes
+      padding: 10,
+      marginTop: 20, // Ajoute un peu de remplissage
+      },
+      
+      tableCells: {
+          fontFamily: 46,
+          fontSize: 40,
+          color: '#000',
+      },
     tableColHeader: {
       width: "25%",
       borderStyle: "solid",
@@ -59,12 +72,16 @@ const styles = StyleSheet.create({
       backgroundColor: "#f0f0f0",
     },
     tableCol: {
-      width: "25%",
+      width: "100%",
       borderStyle: "solid",
       borderColor: "#bfbfbf",
       borderRightWidth: 1 /* Ajoute une ligne verticale à droite de chaque cellule */,
       borderBottomWidth: 1,
       borderLeftWidth: 1
+    },
+    tableColHea: {
+      width:"100%",
+      backgroundColor: "#bfbfbf"
     },
     tableCellHeader: {
       margin: 5,
@@ -110,6 +127,10 @@ const PrintColis = () => {
     const datanow = new Date();
     const formattedDate = dateFormat(datanow, "dd/mm/yyyy");
     const [etatDatas, setetatDatas] = useState([]);
+    const [Depense, setetatDepense] = useState([]);
+    const [Payer, setetatPayer] = useState([]);
+    const [Colis, setetatColis] = useState([]);
+    const [Balance, setetatBalance] = useState([]);
     const [isLoading, setloading] = useState(true);
     let { dateDebut, dateFin} = useParams();
 
@@ -135,8 +156,12 @@ const PrintColis = () => {
             setetatDatas(membre);
           } else if (membre && typeof membre === 'object') {
             // Check if it has a data property that is an array
-            if (Array.isArray(membre.data)) {
-              setetatDatas(membre.data);
+            if (Array.isArray(membre.agents)) {
+              setetatDatas(membre.agents);
+              setetatDepense(membre.depense);
+              setetatBalance(membre.balance);
+              setetatColis(membre.totalcolisentre);
+              setetatPayer(membre.totalPayer);
             } else {
               console.error("Expected an array but received:", membre);
               setetatDatas([]); // Reset to empty if response is not an array
@@ -164,17 +189,20 @@ const PrintColis = () => {
               <Page size="A4" style={styles.page}>
                 <View style={styles.section}>
                   <View
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                    style={{ display: "flex",flexDirection: "row" ,justifyContent: "space-between" }}
                   >
                     <View className="col-md-6">
-                      <Image src="ab.jpg" style={{ width: 200, height: 100 }} />
+                      <Image src={logo} style={{ width: 200, height: 100 }}/>apitransfert.wedesigngroupe.com
                     </View>
-                  </View>apitransfert.wedesigngroupe.com
+                    <View className="col-md-6">
+                      <Text>Date: {formattedDate}</Text>
+                    </View>
+                  </View>
                 </View>
                 <View style={styles.body}>
                   <div className="text-center">
                     <Text style={{ fontSize: 15, textDecoration: "underline" }}>
-                      Liste Colis Du {} Au {}
+                      Liste Colis Du { dateDebut} Au {dateFin}
                     </Text>
                     <Text> </Text>
                   </div>
@@ -182,7 +210,7 @@ const PrintColis = () => {
                     <View style={styles.table}>
                       <View style={styles.tableRow}>
                         <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>Nom Agent</Text>
+                          <Text style={styles.tableCellHeader}>Nom Client</Text>
                         </View>
                         <View style={styles.tableColHeader}>
                           <Text style={styles.tableCellHeader}>Nom Colis</Text>
@@ -191,40 +219,75 @@ const PrintColis = () => {
                           <Text style={styles.tableCellHeader}>Nombre Total Colis</Text>
                         </View>
                         <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>Prix Total</Text>
+                          <Text style={styles.tableCellHeader}>Prix Unitaire</Text>
                         </View>
                         <View style={styles.tableColHeader}>
-                          <Text style={styles.tableCellHeader}>Prix Unitaire</Text>
+                          <Text style={styles.tableCellHeader}>Prix Total</Text>
                         </View>
                         <View style={styles.tableColHeader}>
                           <Text style={styles.tableCellHeader}>Montant à Payer</Text>
                         </View>
                       </View>
-    
                       {etatDatas.map((etatData, index) => (
-                           <View key={index} style={styles.tableRow}>
-                            
-                            <View style={styles.tableCol}>
-                               <Text style={styles.tableCell}>{etatData.nomagent ?? 'Aucune data'}</Text>
-                           </View>
-                            <View style={styles.tableCol}>
-                               <Text style={styles.tableCell}>{etatData.nomcolis}</Text>
-                           </View>
-                           <View style={styles.tableCol}>
-                               <Text style={styles.tableCell}>{etatData.nbrtotalcolis}</Text>
-                           </View>
-                           <View style={styles.tableCol}>
-                               <Text style={styles.tableCell}>{etatData.prixtotal}</Text>
-                           </View>
-                           <View style={styles.tableCol}>
-                               <Text style={styles.tableCell}>{etatData.prixunitaire}</Text>
-                           </View>
-                           <View style={styles.tableCol}>
-                               <Text style={styles.tableCell}>{etatData.montantpayer}</Text>
-                           </View>
-                       </View>
-                      ))} 
-                    </View>
+                          <View key={index} style={styles.agentContainer}>
+                              {/* Affichage du nom de l'agent */}
+                              <View style={styles.tableRow}>
+                                  <View style={styles.tableColHea}>
+                                      <Text style={styles.tableCell}>{etatData.nom ?? 'Aucune data'} </Text>
+                                  </View>
+                              </View>
+                              <View style={styles.tableRow}>
+                                <View>
+                                  <Text style={styles.tableCell}>{etatData.balance}</Text>
+                                </View>
+                            </View>
+                              {/* Parcours des colis de l'agent */}
+                              {etatData.colis.length > 0 ? ( // Vérifiez s'il y a des colis
+                                  etatData.colis.map((colis, colisIndex) => (
+                                      <View key={colisIndex} style={styles.tableRow}>
+                                          <View style={styles.tableCol}>
+                                              <Text style={styles.tableCell}>{colis.nom_client ?? 'Aucune data'}</Text>
+                                          </View>
+                                          <View style={styles.tableCol}>
+                                              <Text style={styles.tableCell}>{colis.nomcolis ?? '0'}</Text>
+                                          </View>
+                                          <View style={styles.tableCol}>
+                                              <Text style={styles.tableCell}>{colis.nbrtotalcolis ?? '0'}</Text>
+                                          </View>
+                                          <View style={styles.tableCol}>
+                                              <Text style={styles.tableCell}>{colis.prixunitaire ?? '0'}</Text>
+                                          </View>
+                                          <View style={styles.tableCol}>
+                                              <Text style={styles.tableCell}>{colis.prixtotal ?? '0'}</Text>
+                                          </View>
+                                          <View style={styles.tableCol}>
+                                              <Text style={styles.tableCell}>{colis.montantpayer ?? '0'}</Text>
+                                          </View>
+                                      </View>
+                                  ))
+                              ) : (
+                                  <View style={styles.tableRow}>
+                                      <Text style={styles.tableCell}>Aucun colis disponible</Text>
+                                  </View>
+                              )}
+                          </View>
+                      ))}
+                          <View style={[styles.tableRows, {marginTop:30}]}>
+
+                              <View style={styles.tableCol}>
+                                  <Text style={styles.tableCell}>Nombre Colis: {Colis}</Text>
+                              </View>
+                              <View style={styles.tableCol}>
+                                  <Text style={styles.tableCell}>Total payer: {Payer}</Text>
+                              </View>
+                              <View style={styles.tableCol}>
+                                  <Text style={styles.tableCell}>Depense: {Depense}</Text>
+                              </View>
+                              <View style={styles.tableCol}>
+                                  <Text style={styles.tableCell}>Reste: {Balance}</Text>
+                              </View>
+                          </View>
+                      </View>
                   </div>
                 </View>
               </Page>

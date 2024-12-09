@@ -11,6 +11,7 @@ import {
 import dateFormat from "dateformat";
 import { useParams } from "react-router-dom";
 import { getColisDepense, impressionAllentrer } from "../../actions/ColisAction";
+import logo from '../../../public/ab.jpg';
 
 const styles = StyleSheet.create({
     page: {
@@ -32,23 +33,35 @@ const styles = StyleSheet.create({
       textAlign: "center",
       size: 50,
     },
-    table: {
-      margin: 10,
-      padding: 10,
-      textAlign: "center",
-      fontSize: 15,
-    },
+    // table: {
+    //   margin: 10,
+    //   padding: 10,
+    //   textAlign: "center",
+    //   fontSize: 15,
+    // },
     table: {
       display: "table",
       width: "auto",
       borderStyle: "solid",
       borderColor: "#bfbfbf",
-      borderWidth: 1,
+      //borderWidth: 1,
       borderRightWidth: 0,
       borderBottomWidth: 0,
     },
     tableRow: {
       flexDirection: "row",
+    },
+
+    tableRows: {
+      flexDirection: 'row', // Aligne les enfants en ligne
+      justifyContent: 'space-between', // Espace égal entre les colonnes
+      padding: 10,
+      marginTop: 20, // Ajoute un peu de remplissage
+      },
+      tableCells: {
+        fontFamily: 46,
+        fontSize: 40,
+        color: '#000',
     },
     tableColHeader: {
       width: "25%",
@@ -58,12 +71,18 @@ const styles = StyleSheet.create({
       backgroundColor: "#f0f0f0",
     },
     tableCol: {
-      width: "25%",
+      width: "100%",
       borderStyle: "solid",
       borderColor: "#bfbfbf",
       borderRightWidth: 1 /* Ajoute une ligne verticale à droite de chaque cellule */,
       borderBottomWidth: 1,
+      borderLeftWidth: 1,
     },
+    tableColHea: {
+      width:"100%",
+      backgroundColor: "#bfbfbf"
+    },
+
     tableCellHeader: {
       margin: 5,
       fontSize: 12,
@@ -108,6 +127,7 @@ const PrintColisDepense = () => {
     const formattedDate = dateFormat(datanow, "dd/mm/yyyy");
     const [etatData, setetatData] = useState([]);
     const [isLoading, setloading] = useState(true);
+    const [Depense, setetatDepense] = useState([]);
     const [typeText, settypeText] = useState("");
     const [typeColor, settypeColor] = useState("");
     let { dateDebut, dateFin } = useParams();
@@ -117,14 +137,18 @@ const PrintColisDepense = () => {
       getColisDepense(dateDebut, dateFin)
         .then((membre) => {
           setetatData(membre);
+          setetatDepense(membre.depense);
           console.log(etatData)
           setloading(false);
         })
         .catch((error) =>{
           console.log(error);
         });
-    }, []);
-    
+    }, [dateDebut, dateFin]);
+
+    if (isLoading) {
+      return <Text>Loading...</Text>; // Optional loading state
+    }
     return (
         <>
           <PDFViewer style={{ width: "100%", height: "100vh" }}>
@@ -132,17 +156,20 @@ const PrintColisDepense = () => {
               <Page size="A4" style={styles.page}>
                 <View style={styles.section}>
                   <View
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                    style={{ display: "flex",flexDirection: "row", justifyContent: "space-between" }}
                   >
                     <View className="col-md-6">
-                      <Image src="ab.jpg" style={{ width: 200, height: 100 }} />
+                      <Image src={logo} style={{ width: 200, height: 100 }} /> apitransfert.wedesigngroupe.com
                     </View>
-                  </View>apitransfert.wedesigngroupe.com
+                    <View className="col-md-6 mt-2">
+                      <Text>Date: {formattedDate}</Text>
+                    </View>
+                  </View>
                 </View>
                 <View style={styles.body}>
                   <div className="text-center">
                     <Text style={{ fontSize: 15, textDecoration: "underline" }}>
-                      Liste Depense Colis N° {etatData.id}
+                      Liste Depense Colis du { dateDebut} Au {dateFin}
                     </Text>
                     <Text> </Text>
                   </div>
@@ -179,7 +206,16 @@ const PrintColisDepense = () => {
                                <Text style={styles.tableCell}>{etatDatas.motif}</Text>
                            </View>
                        </View>
-                      ))}             
+                      ))}
+                      <View style={[styles.tableRows, {marginTop:30}]}>
+                          <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Nombre Total depense : 
+                            </Text>
+                          </View>
+                          <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>Montant total depense : </Text>
+                          </View>
+                      </View>
                     </View>
                   </div>
                 </View>

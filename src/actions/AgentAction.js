@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 export const postAgent = (formData) => {
   return async (dispatch) => {
     try {
-      const response = await axioClient.post(`Agent`, formData);
+      const response = await axioClient.post(`Agents`, formData);
       Swal.fire({
         icon: "success",
         title: `${response.data.message}`,
@@ -52,7 +52,7 @@ export const getColis = (dateDebut, dateFin) => {
 };
 
 export const getAgent = ()=>{
-  return axioClient.get(`Agent`)
+  return axioClient.get(`Agents`)
     .then((response) =>{
       return response.data.data;
     })
@@ -89,7 +89,7 @@ export const getColiId = (id) => {
     });
 };
 
-export const deleteColi = (id) => {
+export const deleteAgent = (id) => {
   return async (dispatch) => {
     Swal.fire({
       title: "Êtes-vous sûr?",
@@ -103,7 +103,7 @@ export const deleteColi = (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axioClient.delete(`Coli/${id}`);
+          const response = await axioClient.delete(`Agents/${id}`);
           Swal.fire({
             icon: "success",
             title: `${response.data.message}`,

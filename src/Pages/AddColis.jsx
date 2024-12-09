@@ -1,7 +1,7 @@
 import { React, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import { postColis } from "../actions/ColisAction";
+import { getAgent, postColis } from "../actions/ColisAction";
 import { useNavigate } from "react-router-dom";
 
 const AddColis = () => {
@@ -10,7 +10,7 @@ const AddColis = () => {
   const [inputListNew, setInputListNew] = useState([
     {
       nom_colis: "",
-      nomclient: "",
+      nom_client: "",
       nombre_total_colis: "",
       prix_unitaire: "",
       kilo_colis: "",
@@ -18,6 +18,8 @@ const AddColis = () => {
     },
   ]);
 
+  const [dataAgent, setagentData] = useState([]);
+  const [selectedAgentId, setSelectedAgentId] = useState("");
   const dispatch = useDispatch();
   const form = useRef();
 
@@ -26,7 +28,7 @@ const AddColis = () => {
       ...inputListNew,
       {
         nom_colis: "",
-        nomclient: "",
+        nom_client: "",
         nombre_total_colis: "",
         prix_unitaire: "",
         kilo_colis: "",
@@ -49,13 +51,14 @@ const AddColis = () => {
     setloading2(true);
 
     const formDataList = inputListNew.map((item) => ({
-      nomcolis: item.nom_colis,
+      date_chargement: String(form.current["date_chargement"].value),
       nom_client: item.nom_client,
+      nomcolis: item.nom_colis,
       nbrtotalcolis: item.nombre_total_colis,
       prixunitaire: item.prix_unitaire,
       kilocolis: item.kilo_colis,
       prixtotal: item.prix_total,
-      id_agent: parseInt(form.current["id_agent"].value),
+      id_agent: parseInt(selectedAgentId),
       montantpayer: montantAPayer,
       totalkilo: totalKilos,
     }));
@@ -76,6 +79,19 @@ const AddColis = () => {
     }
   };
 
+  const fetchAgents = () => {
+    getAgent()
+    .then((member) =>{
+        setagentData(member);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+  };
+  const handleChange = (event) => {
+    setSelectedAgentId(event.target.value); // Mettez à jour l'état avec la valeur sélectionnée
+  };
+
   useEffect(() => {
     const newMontantAPayer = inputListNew.reduce(
       (acc, item) => acc + (parseFloat(item.prix_total) || 0),
@@ -87,6 +103,7 @@ const AddColis = () => {
     );
     setMontantAPayer(newMontantAPayer);
     setTotalKilos(newTotalKilos);
+    fetchAgents();
   }, [inputListNew]);
 
   return (
@@ -99,7 +116,7 @@ const AddColis = () => {
           <div className="card-body">
             <form ref={form} onSubmit={handleSubmitColis}>
               <div className="row">
-                <div className="mb-3 col-md-6">
+                {/* <div className="mb-3 col-md-6">
                   <label htmlFor="id_agent" className="form-label"> NOM AGENT</label>
                   <input
                     type="number"
@@ -109,20 +126,53 @@ const AddColis = () => {
                     className="form-control"
                   />
                  
+                </div> */}
+                <div className="mb-3 col-md-6">
+                <label htmlFor="id_agent" className="form-label"> NOM AGENT</label>
+                <select
+                  className="form-select"
+                  id="id_agent"
+                  name="id_agent"
+                  value={selectedAgentId} // Liez la valeur sélectionnée à l'état
+                  onChange={handleChange}
+                  autoFocus
+                >
+                  <option value="">Sélectionnez un agent</option>
+                  {
+                    dataAgent.map((e) => {
+                      return <option value={e.id} key={e.id}>{e.nom}</option>
+                    })
+                  }
+                  {/* Ajoutez d'autres options ici */}
+                </select>
+                <div>
+            
+            </div>
                 </div>
                 <div className="mb-3 col-md-6">
-                  <label htmlFor="nom_client" className="form-label">NOM CLIENT</label>
+                  <label htmlFor="date_chargement" className="form-label">DATE SORTI COLIS</label>
                   <input 
-                    type="text"
-                    id="nomclient"
-                    name="nomclient"
-                    placeholder="Computech Congo"
+                    type="date"
+                    id="date_chargement"
+                    name="date_chargement"
                     className="form-control"
                   />
                 </div>
                 {inputListNew.map((x, i) => {
                   return (
                     <>
+                      <div className="mb-3 col-md-2">
+                        <label htmlFor="nom_client" className="form-label">NOM CLIENT</label>
+                        <input 
+                          type="text"
+                          id="nom_client"
+                          name="nom_client"
+                          placeholder="Computech Congo"
+                          className="form-control"
+                          value={x.nom_client}
+                          onChange={(e) => handleInputChange(i, "nom_client", e.target.value)}
+                        />
+                      </div>
                       <div className="mb-3 col-md-2">
                         <label className="form-label">NOM COLIS</label>
                         <input
@@ -192,7 +242,7 @@ const AddColis = () => {
                           }
                         />
                       </div>
-                      <div className="mb-3 col-md-2">
+                      <div className="mb-3 col-md-12">
                         {inputListNew.length - 1 === i && (
                           <button
                             type="button"
